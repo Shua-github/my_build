@@ -33,7 +33,7 @@ jobs:
           dotnet publish -c Release -r linux-arm64 --output ./out
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: linux-arm64-build
           path: ./out
@@ -62,7 +62,7 @@ jobs:
           dotnet publish -c Release -r linux-x64 --output ./out
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: linux-x64-build
           path: ./out
@@ -91,7 +91,7 @@ jobs:
           dotnet publish -c Release -r osx-arm64 --output ./out
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: macos-arm64-build
           path: ./out
@@ -120,7 +120,7 @@ jobs:
           dotnet publish -c Release -r osx-x64 --output ./out
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: macos-x64-build
           path: ./out
@@ -149,7 +149,7 @@ jobs:
           dotnet publish -c Release -r win-x64 --output ./out
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: windows-x64-build
           path: ./out
