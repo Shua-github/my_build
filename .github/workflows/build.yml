@@ -1,12 +1,7 @@
 name: Build .NET Project for Multiple Platforms
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   build-linux-arm64:
@@ -19,13 +14,18 @@ jobs:
         - name: Set up .NET
           uses: actions/setup-dotnet@v2
           with:
-            dotnet-version: '9.0'
+            dotnet-version: '8.0.x'
 
         - name: Install ARM64 cross-compilation tools
           run: |
             sudo apt-get update
             sudo apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu binutils-aarch64-linux-gnu
             sudo apt-get install -y clang lld
+
+        - name: Install additional dependencies
+          run: |
+            sudo apt-get update
+            sudo apt-get install -y zlib1g-dev
 
         - name: Install dependencies
           working-directory: ./MemeFactory/MemeProcessorLibrary

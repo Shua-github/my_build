@@ -1,0 +1,33 @@
+name: Build for macOS x64
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-macos-x64:
+    runs-on: macos-latest
+    name: Build for macOS x64
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '9.0'
+
+      - name: Install dependencies
+        working-directory: ./MemeFactory/MemeProcessorLibrary
+        run: |
+          dotnet restore
+
+      - name: Build and publish
+        working-directory: ./MemeFactory/MemeProcessorLibrary
+        run: |
+          dotnet publish -c Release -r osx-x64 --output ./out
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-x64-build
+          path: ./MemeFactory/MemeProcessorLibrary/out
