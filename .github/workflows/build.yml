@@ -1,0 +1,155 @@
+name: Build .NET Project for Multiple Platforms
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-linux-arm64:
+    runs-on: ubuntu-20.04
+    name: Build for Linux ARM64
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '9.0'  # 修改为你需要的 .NET 版本
+
+      - name: Navigate to project directory
+        run: cd ./MemeFactory/MemeProcessorLibrary
+
+      - name: Install dependencies
+        run: |
+          dotnet restore
+
+      - name: Build and publish
+        run: |
+          dotnet publish -c Release -r linux-arm64 --output ./out
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: linux-arm64-build
+          path: ./out
+
+  build-linux-x64:
+    runs-on: ubuntu-20.04
+    name: Build for Linux x64
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '9.0'
+
+      - name: Navigate to project directory
+        run: cd ./MemeFactory/MemeProcessorLibrary
+
+      - name: Install dependencies
+        run: |
+          dotnet restore
+
+      - name: Build and publish
+        run: |
+          dotnet publish -c Release -r linux-x64 --output ./out
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: linux-x64-build
+          path: ./out
+
+  build-macos-arm64:
+    runs-on: macos-latest
+    name: Build for macOS ARM64
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '9.0'
+
+      - name: Navigate to project directory
+        run: cd ./MemeFactory/MemeProcessorLibrary
+
+      - name: Install dependencies
+        run: |
+          dotnet restore
+
+      - name: Build and publish
+        run: |
+          dotnet publish -c Release -r osx-arm64 --output ./out
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: macos-arm64-build
+          path: ./out
+
+  build-macos-x64:
+    runs-on: macos-latest
+    name: Build for macOS x64
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '9.0'
+
+      - name: Navigate to project directory
+        run: cd ./MemeFactory/MemeProcessorLibrary
+
+      - name: Install dependencies
+        run: |
+          dotnet restore
+
+      - name: Build and publish
+        run: |
+          dotnet publish -c Release -r osx-x64 --output ./out
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: macos-x64-build
+          path: ./out
+
+  build-windows-x64:
+    runs-on: windows-latest
+    name: Build for Windows x64
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '9.0'
+
+      - name: Navigate to project directory
+        run: cd ./MemeFactory/MemeProcessorLibrary
+
+      - name: Install dependencies
+        run: |
+          dotnet restore
+
+      - name: Build and publish
+        run: |
+          dotnet publish -c Release -r win-x64 --output ./out
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: windows-x64-build
+          path: ./out
