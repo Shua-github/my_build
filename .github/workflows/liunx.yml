@@ -1,7 +1,7 @@
 name: Build for Linux ARM64
 
 on:
-    workflow_dispatch:
+  workflow_dispatch:
 
 jobs:
   build-linux-arm64:
@@ -22,10 +22,18 @@ jobs:
           sudo apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu binutils-aarch64-linux-gnu
           sudo apt-get install -y clang lld
 
-      - name: Install additional dependencies
+      - name: Add ARM64 architecture
         run: |
+          sudo dpkg --add-architecture arm64
           sudo apt-get update
-          sudo apt-get install -y zlib1g-dev
+
+      - name: Install zlib1g-dev for ARM64
+        run: |
+          sudo apt-get install -y zlib1g-dev:arm64
+
+      - name: Verify zlib1g-dev installation
+        run: |
+          dpkg -l | grep zlib1g-dev
 
       - name: Install dependencies
         working-directory: ./MemeFactory/MemeProcessorLibrary
@@ -38,6 +46,9 @@ jobs:
           CC: clang
           CXX: clang++
           LD: ld.lld
+          CFLAGS: -target aarch64-linux-gnu
+          CXXFLAGS: -target aarch64-linux-gnu
+          LDFLAGS: -target aarch64-linux-gnu -fuse-ld=lld
         run: |
           dotnet publish MemeProcessorLibrary.csproj -c Release -r linux-arm64 --output ./out --self-contained true
 
