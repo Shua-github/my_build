@@ -14,7 +14,7 @@ jobs:
     name: Build for Linux ARM64
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up .NET
         uses: actions/setup-dotnet@v2
@@ -43,7 +43,7 @@ jobs:
     name: Build for Linux x64
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up .NET
         uses: actions/setup-dotnet@v2
@@ -72,7 +72,7 @@ jobs:
     name: Build for macOS ARM64
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up .NET
         uses: actions/setup-dotnet@v2
@@ -101,7 +101,7 @@ jobs:
     name: Build for macOS x64
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up .NET
         uses: actions/setup-dotnet@v2
@@ -130,7 +130,7 @@ jobs:
     name: Build for Windows x64
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up .NET
         uses: actions/setup-dotnet@v2
