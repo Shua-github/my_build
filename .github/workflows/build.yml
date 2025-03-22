@@ -10,60 +10,42 @@ on:
 
 jobs:
   build-linux-arm64:
-    runs-on: ubuntu-20.04
-    name: Build for Linux ARM64
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      runs-on: ubuntu-20.04
+      name: Build for Linux ARM64
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v4
 
-      - name: Set up .NET
-        uses: actions/setup-dotnet@v2
-        with:
-          dotnet-version: '9.0'
+        - name: Set up .NET
+          uses: actions/setup-dotnet@v2
+          with:
+            dotnet-version: '9.0'
 
-      - name: Install dependencies
-        working-directory: ./MemeFactory/MemeProcessorLibrary
-        run: |
-          dotnet restore
+        - name: Install ARM64 cross-compilation tools
+          run: |
+            sudo apt-get update
+            sudo apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu binutils-aarch64-linux-gnu
+            sudo apt-get install -y clang lld
 
-      - name: Build and publish
-        working-directory: ./MemeFactory/MemeProcessorLibrary
-        run: |
-          dotnet publish -c Release -r linux-arm64 --output ./out
+        - name: Install dependencies
+          working-directory: ./MemeFactory/MemeProcessorLibrary
+          run: |
+            dotnet restore MemeProcessorLibrary.csproj
 
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: linux-arm64-build
-          path: ./MemeFactory/MemeProcessorLibrary/out
+        - name: Build and publish
+          working-directory: ./MemeFactory/MemeProcessorLibrary
+          env:
+            CC: clang
+            CXX: clang++
+            LD: ld.lld
+          run: |
+            dotnet publish MemeProcessorLibrary.csproj -c Release -r linux-arm64 --output ./out --self-contained true
 
-  build-linux-x64:
-    runs-on: ubuntu-20.04
-    name: Build for Linux x64
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up .NET
-        uses: actions/setup-dotnet@v2
-        with:
-          dotnet-version: '9.0'
-
-      - name: Install dependencies
-        working-directory: ./MemeFactory/MemeProcessorLibrary
-        run: |
-          dotnet restore
-
-      - name: Build and publish
-        working-directory: ./MemeFactory/MemeProcessorLibrary
-        run: |
-          dotnet publish -c Release -r linux-x64 --output ./out
-
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: linux-x64-build
-          path: ./MemeFactory/MemeProcessorLibrary/out
+        - name: Upload build artifacts
+          uses: actions/upload-artifact@v4
+          with:
+            name: linux-arm64-build
+            path: ./MemeFactory/MemeProcessorLibrary/out
 
   build-macos-arm64:
     runs-on: macos-latest
@@ -119,32 +101,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: macos-x64-build
-          path: ./MemeFactory/MemeProcessorLibrary/out
-
-  build-windows-x64:
-    runs-on: windows-latest
-    name: Build for Windows x64
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up .NET
-        uses: actions/setup-dotnet@v2
-        with:
-          dotnet-version: '9.0'
-
-      - name: Install dependencies
-        working-directory: ./MemeFactory/MemeProcessorLibrary
-        run: |
-          dotnet restore
-
-      - name: Build and publish
-        working-directory: ./MemeFactory/MemeProcessorLibrary
-        run: |
-          dotnet publish -c Release -r win-x64 --output ./out
-
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: windows-x64-build
           path: ./MemeFactory/MemeProcessorLibrary/out
