@@ -19,16 +19,15 @@ jobs:
       - name: Set up .NET
         uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: '9.0'  # 修改为你需要的 .NET 版本
-
-      - name: Navigate to project directory
-        run: cd ./MemeFactory/MemeProcessorLibrary
+          dotnet-version: '9.0'
 
       - name: Install dependencies
+        working-directory: ./MemeFactory/MemeProcessorLibrary
         run: |
           dotnet restore
 
       - name: Build and publish
+        working-directory: ./MemeFactory/MemeProcessorLibrary
         run: |
           dotnet publish -c Release -r linux-arm64 --output ./out
 
@@ -36,7 +35,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: linux-arm64-build
-          path: ./out
+          path: ./MemeFactory/MemeProcessorLibrary/out
 
   build-linux-x64:
     runs-on: ubuntu-20.04
@@ -50,14 +49,13 @@ jobs:
         with:
           dotnet-version: '9.0'
 
-      - name: Navigate to project directory
-        run: cd ./MemeFactory/MemeProcessorLibrary
-
       - name: Install dependencies
+        working-directory: ./MemeFactory/MemeProcessorLibrary
         run: |
           dotnet restore
 
       - name: Build and publish
+        working-directory: ./MemeFactory/MemeProcessorLibrary
         run: |
           dotnet publish -c Release -r linux-x64 --output ./out
 
@@ -65,7 +63,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: linux-x64-build
-          path: ./out
+          path: ./MemeFactory/MemeProcessorLibrary/out
 
   build-macos-arm64:
     runs-on: macos-latest
@@ -79,14 +77,13 @@ jobs:
         with:
           dotnet-version: '9.0'
 
-      - name: Navigate to project directory
-        run: cd ./MemeFactory/MemeProcessorLibrary
-
       - name: Install dependencies
+        working-directory: ./MemeFactory/MemeProcessorLibrary
         run: |
           dotnet restore
 
       - name: Build and publish
+        working-directory: ./MemeFactory/MemeProcessorLibrary
         run: |
           dotnet publish -c Release -r osx-arm64 --output ./out
 
@@ -94,7 +91,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: macos-arm64-build
-          path: ./out
+          path: ./MemeFactory/MemeProcessorLibrary/out
 
   build-macos-x64:
     runs-on: macos-latest
@@ -108,14 +105,13 @@ jobs:
         with:
           dotnet-version: '9.0'
 
-      - name: Navigate to project directory
-        run: cd ./MemeFactory/MemeProcessorLibrary
-
       - name: Install dependencies
+        working-directory: ./MemeFactory/MemeProcessorLibrary
         run: |
           dotnet restore
 
       - name: Build and publish
+        working-directory: ./MemeFactory/MemeProcessorLibrary
         run: |
           dotnet publish -c Release -r osx-x64 --output ./out
 
@@ -123,7 +119,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: macos-x64-build
-          path: ./out
+          path: ./MemeFactory/MemeProcessorLibrary/out
 
   build-windows-x64:
     runs-on: windows-latest
@@ -137,14 +133,13 @@ jobs:
         with:
           dotnet-version: '9.0'
 
-      - name: Navigate to project directory
-        run: cd ./MemeFactory/MemeProcessorLibrary
-
       - name: Install dependencies
+        working-directory: ./MemeFactory/MemeProcessorLibrary
         run: |
           dotnet restore
 
       - name: Build and publish
+        working-directory: ./MemeFactory/MemeProcessorLibrary
         run: |
           dotnet publish -c Release -r win-x64 --output ./out
 
@@ -152,4 +147,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: windows-x64-build
-          path: ./out
+          path: ./MemeFactory/MemeProcessorLibrary/out
